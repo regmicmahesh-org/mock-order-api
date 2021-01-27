@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/regmicmahesh-org/mock-order-api/order"
-	"github.com/regmicmahesh-org/mock-order-api/publisher"
+	"github.com/regmicmahesh-org/mock-order-api/rabbitmq/publisher"
 )
 
 //OrderHandler parses the json request received on body.
