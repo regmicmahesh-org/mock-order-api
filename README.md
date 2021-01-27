@@ -1,23 +1,23 @@
 # Foobar
 
-Foobar is a Python library for dealing with word pluralization.
+Order API is a Golang Library + Application for dealing with word pluralization.
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Clone this repository.
 
 ```bash
-pip install foobar
+git clone https://github.com/regmicmahesh-org/mock-order-api.git
+cd mock-order-api
+go build ./cmd/mock-consumer 
+go build ./cmd/mock-order-api
 ```
 
 ## Usage
 
-```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+```bash
+./mock-order-api &
+./mock-consumer
 ```
 
 ## Contributing

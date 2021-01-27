@@ -2,7 +2,6 @@ package publisher
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/regmicmahesh-org/mock-order-api/order"
 	"github.com/streadway/amqp"
@@ -11,12 +10,8 @@ import (
 var rq RabbitMQ
 
 type RabbitMQ struct {
-	connection *amqp.Connection
-	channel    *amqp.Channel
-}
-
-func init() {
-	fmt.Println("hi")
+	Connection *amqp.Connection
+	Channel    *amqp.Channel
 }
 
 func Connect() error {
@@ -30,18 +25,22 @@ func Connect() error {
 		return err
 	}
 
-	rq = RabbitMQ{connection: conn, channel: chann}
+	rq = RabbitMQ{Connection: conn, Channel: chann}
 	return nil
 }
 
 func Initialize() error {
 
-	_, err := rq.channel.QueueDeclare("sms", true, false, false, false, nil)
+	_, err := rq.Channel.QueueDeclare("sms", true, false, false, false, nil)
 	if err != nil {
 		return err
 	}
 	return nil
 
+}
+
+func GetInstance() *RabbitMQ {
+	return &rq
 }
 
 func Send(order *order.Order) error {
@@ -51,7 +50,7 @@ func Send(order *order.Order) error {
 		return err
 	}
 
-	err = rq.channel.Publish("", "sms", false, false, amqp.Publishing{ContentType: "text/json", Body: []byte(body)})
+	err = rq.Channel.Publish("", "sms", false, false, amqp.Publishing{ContentType: "text/json", Body: []byte(body)})
 
 	if err != nil {
 		return err
