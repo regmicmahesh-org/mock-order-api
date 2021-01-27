@@ -3,9 +3,8 @@ package main
 import (
 	"net/http"
 
-	"github.com/regmicmahesh-org/mock-order-api/publisher"
-
 	"github.com/regmicmahesh-org/mock-order-api/handlers"
+	"github.com/regmicmahesh-org/mock-order-api/rabbitmq/publisher"
 )
 
 func main() {

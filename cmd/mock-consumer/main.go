@@ -5,12 +5,11 @@ import (
 	"log"
 	"sync"
 
+	"github.com/regmicmahesh-org/mock-order-api/rabbitmq/consumer"
+	"github.com/regmicmahesh-org/mock-order-api/rabbitmq/publisher"
 	"github.com/regmicmahesh-org/mock-order-api/twilio"
 
 	"github.com/regmicmahesh-org/mock-order-api/order"
-
-	"github.com/regmicmahesh-org/mock-order-api/consumer"
-	"github.com/regmicmahesh-org/mock-order-api/publisher"
 )
 
 var wg sync.WaitGroup

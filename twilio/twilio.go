@@ -19,7 +19,7 @@ func prepareRequest(number string, body string) *http.Request {
 	req, _ := http.NewRequest("POST",
 		"https://api.twilio.com/2010-04-01/Accounts/AC2ee6f316d67fb729c7e2b53769770f36/Messages.json",
 		numberByte)
-	req.SetBasicAuth("AC2ee6f316d67fb729c7e2b53769770f36", "b698f3bc0d81f0da6ff3ff5760b50655")
+	req.SetBasicAuth("AC2ee6f316d67fb729c7e2b53769770f36", "[auth-token]")
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	return req
