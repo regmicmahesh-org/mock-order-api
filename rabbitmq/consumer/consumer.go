@@ -5,15 +5,15 @@ import (
 	"sync"
 
 	"github.com/regmicmahesh-org/mock-order-api/order"
-	"github.com/regmicmahesh-org/mock-order-api/rabbitmq/publisher"
+	"github.com/regmicmahesh-org/mock-order-api/rabbitmq"
 )
 
 var wg sync.WaitGroup
 
 func Receive(returnVal chan *order.Order) {
 
-	publisher.Connect()
-	instance := publisher.GetInstance()
+	rabbitmq.Connect()
+	instance := rabbitmq.GetInstance()
 
 	msgs, err := instance.Channel.Consume("sms", "", true, false, false, false, nil)
 

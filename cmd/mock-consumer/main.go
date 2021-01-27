@@ -5,8 +5,8 @@ import (
 	"log"
 	"sync"
 
+	"github.com/regmicmahesh-org/mock-order-api/rabbitmq"
 	"github.com/regmicmahesh-org/mock-order-api/rabbitmq/consumer"
-	"github.com/regmicmahesh-org/mock-order-api/rabbitmq/publisher"
 	"github.com/regmicmahesh-org/mock-order-api/twilio"
 
 	"github.com/regmicmahesh-org/mock-order-api/order"
@@ -18,7 +18,7 @@ func main() {
 
 	msgChannel := make(chan *order.Order)
 
-	publisher.Connect()
+	rabbitmq.Connect()
 	wg.Add(1)
 
 	go consumer.Receive(msgChannel)
@@ -28,6 +28,8 @@ func main() {
 		if err := twilio.SendOTP(msg); err != nil {
 			fmt.Println(err)
 			log.Printf("Failed to send message.")
+		} else {
+			fmt.Println("Succesfully sent message to =>", msg.Contact)
 		}
 	}
 	wg.Wait()
