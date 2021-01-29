@@ -1,6 +1,6 @@
-# Foobar
+# Order API
 
-Order API is a Golang Library + Application for dealing with word pluralization.
+Order API is a Golang Library + Application.
 
 ## Installation
 
