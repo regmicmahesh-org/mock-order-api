@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"sync"
 
@@ -17,21 +16,24 @@ var wg sync.WaitGroup
 func main() {
 
 	msgChannel := make(chan *order.Order)
+	status := make(chan string)
 
 	rabbitmq.Connect()
 	wg.Add(1)
+	log.Println("Connected.")
 
 	go consumer.Receive(msgChannel)
 
 	for {
-		msg := <-msgChannel
-		if err := twilio.SendOTP(msg); err != nil {
-			fmt.Println(err)
-			log.Printf("Failed to send message.")
-		} else {
-			fmt.Println("Succesfully sent message to =>", msg.Contact)
+		select {
+		case msg := <-msgChannel:
+			log.Println(msg.Contact, " <= OTP REQUEST")
+			wg.Add(1)
+			go twilio.SendOTP(msg, &wg, status)
+		case sts := <-status:
+			log.Println(sts)
+
 		}
 	}
-	wg.Wait()
 
 }

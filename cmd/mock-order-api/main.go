@@ -1,14 +1,16 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/regmicmahesh-org/mock-order-api/handlers"
 	"github.com/regmicmahesh-org/mock-order-api/rabbitmq"
 )
 
 func main() {
+	log.Println("Connecting to RabbitMQ")
 	err := rabbitmq.Connect()
 	if err != nil {
 		panic(err)
@@ -20,12 +22,10 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/order", handlers.OrderHandler)
-	fmt.Println("Starting Server at 8000")
-	err = http.ListenAndServe(":8000", mux)
+	log.Println("Server => " + os.Args[1])
+	log.Println("Endpoints => /order")
+	err = http.ListenAndServe(os.Args[1], mux)
 	if err != nil {
 		panic(err)
-	} else {
-		fmt.Println("Server running at port 8000.")
 	}
-
 }

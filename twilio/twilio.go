@@ -1,11 +1,11 @@
 package twilio
 
 import (
-	"errors"
 	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/regmicmahesh-org/mock-order-api/order"
 )
@@ -19,7 +19,7 @@ func prepareRequest(number string, body string) *http.Request {
 	req, _ := http.NewRequest("POST",
 		"https://api.twilio.com/2010-04-01/Accounts/AC2ee6f316d67fb729c7e2b53769770f36/Messages.json",
 		numberByte)
-	req.SetBasicAuth("AC2ee6f316d67fb729c7e2b53769770f36", "c7f77ddebde443d6bd60d7d867b2f0c3")
+	req.SetBasicAuth("AC2ee6f316d67fb729c7e2b53769770f36", "1be295374ae96a8ba6470947d5a017db")
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	return req
@@ -31,19 +31,18 @@ func prepareBody(ord *order.Order) string {
 
 }
 
-func SendOTP(ord *order.Order) error {
+func SendOTP(ord *order.Order, wg *sync.WaitGroup, status chan string) {
 
 	client := &http.Client{}
 	body := prepareBody(ord)
 	req := prepareRequest(ord.Contact, body)
 	resp, err := client.Do(req)
-	if resp.StatusCode != 201 {
-		return errors.New(resp.Status)
-	}
-	if err != nil {
-		return err
+	defer wg.Done()
+	if resp.StatusCode != 201 || err != nil {
+		status <- "OTP FAILED => " + ord.Contact
+		return
 	}
 
-	return nil
+	status <- "OTP SENT => " + ord.Contact
 
 }
