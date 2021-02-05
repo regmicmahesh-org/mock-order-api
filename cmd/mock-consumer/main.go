@@ -19,6 +19,7 @@ func main() {
 	status := make(chan string)
 
 	rabbitmq.Connect()
+	rabbitmq.Initialize()
 	wg.Add(1)
 	log.Println("Connected.")
 

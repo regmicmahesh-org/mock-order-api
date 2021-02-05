@@ -13,7 +13,7 @@ type RabbitMQ struct {
 
 func Connect() error {
 
-	conn, err := amqp.Dial("amqp://guest:guest@10.6.0.7:5672")
+	conn, err := amqp.Dial("amqp://guest:guest@messagebroker:5672")
 	if err != nil {
 		return err
 	}
